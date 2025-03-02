@@ -1,0 +1,54 @@
+{
+	"Details": {
+		"Name": "Sample Application 1",
+		"Identifier": "SAM1",
+		"Description": "This is a sample application.",
+		"Department": "IT-SRE"
+	},
+	"Contacts": {
+		"BusOwner": "business.owner@example.com",
+		"ITOwner": "it.owner@example.com"
+	},
+	"Data": {
+		"Classification": "private|public|etc",
+		"DataType" : "PCI|HIPAA|Financial|GOV",
+		"DataOwner" : "app.data.owner@example.com"
+	},
+"Neighbors": [
+		{
+			"Name": "Application 2",
+			"Id": "app2",
+			"Flow": "out",
+			"RequestSize": "1500 b",
+			"RequestsPerHour": "100",
+			"RequestMethod" : "http",
+			"Authentication" : "IAM"
+		},
+		{
+			"Name": "Finance 3",
+			"Id": "app3",
+			"Flow": "both",
+			"RequestSize": "1 mb",
+			"RequestsPerHour": "10",
+			"RequestMethod" : "https",
+			"Authentication" : "None"
+		}
+	],
+	"Software": {
+	    "OS": {
+	        "Name": "Linux",
+	        "Distribution": "RHEL",
+	        "Version": "7.x"
+	    },
+	    "language": {
+	        "Name": "Python",
+	        "Version": "3.6"
+	    }
+	},
+	"Functions": [
+	    { "Name": "CreateUser" },
+	    { "Name": "UpdateUser"},
+	    { "Name": "DeleteUser"},
+	    { "Name": "ChangePAssword"}
+	]
+}

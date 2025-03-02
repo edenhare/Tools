@@ -1,0 +1,131 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "This is a sample Cloudformation template for deploying a Cognito User Pool.  Modifications are required to use this template, as it contains every possible attribute.",
+    "Parameters" : {
+        "UserPoolName" : {
+            "Type" : "String",
+            "Default" : "",
+            "Description" : "The name of the Cognito User Pool."
+        }
+    },
+
+    "Resources" : {
+        "userPool": {
+            "Type" : "AWS::Cognito::UserPool",
+            "Properties" : {
+                "AdminCreateUserConfig" : {
+                    "AllowAdminCreateUserOnly" : "True",
+                    "InviteMessageTemplate" : {
+                        "EmailMessage" : "Message template for email messages",
+                        "EmailSubject" : "You are invited to register.",
+                        "SMSMessage" : "Message template for SMS messages"
+                    },
+                    "UnusedAccountValidityDays" : 7
+                },
+                "AliasAttributes" : [ "email", "phone_number"  ],
+                "AutoVerifiedAttributes" : [ "email", "phone_number" ],
+                "DeviceConfiguration" : {
+                    "ChallengeRequiredOnNewDevice" : "True",
+                    "DeviceOnlyRememberedOnUserPrompt" : "True" 
+                },
+                "EmailConfiguration" : {
+                    "EmailSendingAccount" : "COGNITO_DEFAULT | DEVELOPER",
+                    "ReplyToEmailAddress" : "user@example.com",
+                    "SourceArn" : "ARN of SES Verified Email address"
+                },
+                "EmailVerificationMessage" : "Your email address has been verified.",
+                "EmailVerificationSubject" : "Cognito user pool email verified",
+                "EnabledMfas" : [ "SMS_MFA", "SOFTWARE_TOKEN_MFA" ],
+                "LambdaConfig" : {
+                    "CreateAuthChallenge" : "ARN value for function",
+                    "CustomMessage" : "ARN value for function",
+                    "DefineAuthChallenge" : "ARN value for function",
+                    "PostAuthentication" : "ARN value for function",
+                    "PostConfirmation" : "ARN value for function",
+                    "PreAuthentication" : "ARN value for function",
+                    "PreSignUp" : "ARN value for function",
+                    "PreTokenGeneration" : "ARN value for function",
+                    "UserMigration" : "ARN value for function",
+                    "VerifyAuthChallengeResponse" : "ARN value for function"
+                },
+                "MfaConfiguration" : "OFF | ON | OPTIONAL",
+                "Policies" : {
+                    "Password Policy" : {
+                        "MinimumLength" : 8,
+                        "RequireLowercase" : "True",
+                        "RequireNumbers" : "True",
+                        "RequireSymbols" : "True",
+                        "RequireUppercase" : "True",
+                        "TemporaryPasswordValidityDays" : 7
+                    }
+                },
+                "Schema" : [ 
+                    {
+                        "AttributeDataType" : "String",
+                        "DeveloperOnlyAttribute" : "False",
+                        "Mutable" : "True",
+                        "Name" : "name",
+                        "NumberAttributeConstraints" : {
+                            "MaxValue" : 0,
+                            "MinValue" : 255
+                        },
+                        "Required" : "False",
+                        "StringAttributeConstraints" : {
+                            "MaxLength" : 2048,
+                            "MinLength" : 10
+                        }
+                    }
+                ],
+                "SmsAuthenticationMessage" : "This is your authentication code.",
+                "SmsConfiguration" : {
+                    "ExternalId" : "The external ID used in IAM role trust relationships.",
+                    "SnsCallerArn" : "ARN of the IAM role in your AWS account which Cognito will use to send SMS messages"
+                },
+                "SmsVerificationMessage" : "You have verified your login.",
+                "UsernameAttributes" : [ "email", "phone_number" ],
+                "UserPoolAddOns" : {
+                    "AdvancedSecurityMode" : "AUDIT | ENFORCED | OFF"
+                },
+                "UserPoolName" : { 
+                    "Ref" : "UserPoolName" 
+                },
+                "UserPoolTags" : [
+                    {
+                    "Key" : "NAME",
+                    "Value" : "VALUE"
+                    },
+                    {
+                    "Key" : "TWO",
+                    "Value" : "VALUE"
+                    }
+                ],
+                "VerificationMessageTemplate" : {
+                    "DefaultEmailOption" : "CONFIRM_WITH_CODE | CONFIRM_WITH_LINK",
+                    "EmailMessage" : "Email Message Template",
+                    "EmailMessageByLink" : "Email message template for verification link",
+                    "EmailSubject" : "Account Authentication Verification Request",
+                    "EmailSubjectByLink" : "Account Authentication Verification Request",
+                    "SmsMessage" : "SMS Message Template"
+                }
+            }
+        }
+    },
+    "Outputs" : {
+        "ARN" : { 
+            "Description" : "User Pool ARN",
+            "Value" : { "Fn::GetAtt" : [ "userPool", "Arn"] }
+        },
+        "ProviderName" : { 
+            "Description" : "User pool provider name",
+            "Value" : { "Fn::GetAtt" : [ "userPool", "ProviderName"] }
+        },
+        "ProviderURL" : { 
+            "Description" : "Provider URL",
+            "Value" : { "Fn::GetAtt" : [ "userPool", "ProviderURL"] }
+        }
+    }
+}
+
+
+
+
